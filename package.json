@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Holman Gao <holman@golmansax.com>",
   "version": "0.0.1",
-  "main": "lib/crud_store.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "http://github.com/golmansax/react-crud-store.git"
@@ -34,7 +34,8 @@
   "dependencies": {
     "backbone": "latest",
     "immutable": "latest",
-    "object-assign": "latest"
+    "object-assign": "latest",
+    "underscore": "latest"
   },
   "scripts": {
     "test": "make test"

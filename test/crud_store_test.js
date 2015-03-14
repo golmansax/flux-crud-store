@@ -1,7 +1,7 @@
 'use strict';
 
-require('node-jsx').install({ extension: '.jsx' });
-require('./mock_dom');
+var CrudStore = require('../lib/index').Store;
+var CrudStoreActions = require('../lib/index').Actions;
 
 var chai = require('chai');
 chai.use(require('dirty-chai'));
@@ -9,47 +9,59 @@ var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
 
-var React = require('react');
-var TestUtils = require('react/addons').addons.TestUtils;
-var Component = require('./mock_component');
-var StoreOne = require('./mock_store_one');
-
-describe('bind_mixin', function () {
-  var component;
+describe('crud_store', function () {
+  var store;
+  var actions;
 
   beforeEach(function () {
-    component = React.createElement(Component);
+    store = new CrudStore();
+    actions = CrudStoreActions.bindTo(store);
   });
 
-  it('sets initial state', function () {
-    var instance = TestUtils.renderIntoDocument(component);
-    expect(instance.getDOMNode().textContent).to.equal('first,second');
+  describe('#addChangeListener', function () {
+    it('binds a callback to when the store changes', function () {
+      var spy = sinon.spy();
+      store.addChangeListener(spy);
+      actions.create();
+      expect(spy).to.have.been.called();
+    });
   });
 
-  it('updates state when store changes', function () {
-    var instance = TestUtils.renderIntoDocument(component);
-    StoreOne.setValue('changed');
-    expect(instance.getDOMNode().textContent).to.equal('changed,second');
+  describe('#removeChangeListener', function () {
+    it('removes an already bound callback', function () {
+      var spy = sinon.spy();
+      store.addChangeListener(spy);
+      store.removeChangeListener(spy);
+      actions.create();
+      expect(spy).not.to.have.been.called();
+    });
+
+    it('throws an error if the callback is not already bound', function () {
+      expect(function () {
+        store.removeChangeListener(function () { });
+      }).to.throw();
+    });
   });
 
-  it('only calls the bound function when the store changes', function () {
-    var instance = TestUtils.renderIntoDocument(component);
-    sinon.spy(instance, 'getStateFromStoreTwo');
-    StoreOne.setValue('changed');
-    expect(instance.getStateFromStoreTwo).not.to.have.been.called();
+  describe('#get', function () {
+    it('returns null if requested id is not in storage', function () {
+    });
+
+    it('returns an instance of the specified view model', function () {
+    });
+
+    it('returns the same view model instance if nothing changed', function () {
+    });
   });
 
-  it('removes listener when component is unmounted', function () {
-    var div = document.createElement('div');
-    var instance = React.render(component, div);
+  describe('#getAll', function () {
+    it('returns an empty Iterable if nothing is in storage', function () {
+    });
 
-    sinon.spy(instance, 'getStateFromStoreOne');
-    StoreOne.setValue('changed');
-    expect(instance.getStateFromStoreOne).to.have.been.called();
-    instance.getStateFromStoreOne.reset();
+    it('returns an Iterable of the specified view model', function () {
+    });
 
-    React.unmountComponentAtNode(div);
-    StoreOne.setValue('changed again');
-    expect(instance.getStateFromStoreOne).not.to.have.been.called();
+    it('returns the same Iterable instance if nothing changed', function () {
+    });
   });
 });
