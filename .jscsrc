@@ -1,6 +1,6 @@
 {
   "preset": "google",
-  "excludeFiles": ["node_modules/**", "vendor/**"],
+  "excludeFiles": ["node_modules/**", "vendor/**", "coverage/**"],
   "fileExtensions": [".js", ".jsx"],
 
   "requireSpacesInAnonymousFunctionExpression": {

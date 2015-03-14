@@ -26,7 +26,7 @@ describe('crud_store', function () {
   describe('#initialize', function () {
     it('throws an error if viewModel is not set', function () {
       expect(function () {
-        new CrudStore();
+        store = new CrudStore();
       }).to.throw('viewModel must be set');
     });
   });
