@@ -1,0 +1,12 @@
+{
+  "extends": "../.jshintrc",
+  "-W024": false, // for chai methods that are keywords (e.g. throw)
+
+  "globals": {
+    "beforeEach": true,
+    "describe": true,
+    "document": true,
+    "global": true,
+    "it": true
+  }
+}

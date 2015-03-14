@@ -1,0 +1,15 @@
+sudo: false
+language: node_js
+node_js: '0.10'
+script:
+- travis-lint .travis.yml
+- jscs .
+- jshint . --exclude-path .gitignore
+- npm test
+- make codeclimate
+cache:
+  directories:
+  - node_modules
+env:
+  global:
+    secure: JyNnv1C2qlMtDRh9/wnYL1xaz7hSTu8jvasMm12VxEBhOFXukYwcaK64pYVBFKAv+FfAzGfVlh1TJWdQA7NIynHftY1UdSBVsQ8YedS8IJiB0UnnArW3MfYtKjq+Pjx8YD5byjRnO6skAMSXLRMlIODEDXno6oHvMvHK3pCL8Ks=
