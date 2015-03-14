@@ -1,4 +1,7 @@
 test:
+	./node_modules/.bin/mocha test/**/*
+
+coverage:
 	istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*
 
 codeclimate:
