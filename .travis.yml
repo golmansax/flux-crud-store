@@ -12,4 +12,4 @@ cache:
   - node_modules
 env:
   global:
-    secure: hh+oEEQ20L4buKaZscQ6eBNy61JeWlMGBsx+f2RwFR7BZLCfCbh6gXgMnvdtLcRAHwhK5GuBJM2GhJUPNf1accfT4RAIVNj4K+oXrbCTyHI3+wpm38pSuCrqELe54uod42czbbnp7woZ4Sr5lo1APY8KMs0p1P1pAZ70bqQgINM=
+    secure: PvoCUsOLb/AvyYenVRcgTD+QhP38PZWZI2wEeDw3WYtL8s4nva4P3oveX4pEu+QF0zok+M5/a3Gjnc84UW4enZkEIIJnXtgsOUIzwkrxrnnufGCIrBkscWxselOy0HN0Z4dqTBwr2KzvGWNxM5eEdvUuSTs00ZGq07zGlrR6OwI=
