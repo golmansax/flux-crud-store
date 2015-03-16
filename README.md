@@ -8,7 +8,20 @@ A Flux Store implementation which makes it easy to perform CRUD Actions.
 More to come!
 
 ## Installation
+### Node
 ```bash
-# Node
 npm install flux-crud-store --save
+```
+```js
+var CrudStore = require('flux-crud-store').Store;
+var CrudActions = require('flux-crud-store').Actions;
+```
+### Bower
+```bash
+bower install flux-crud-store
+```
+```js
+// Assuming dist/flux_crud_store.js has been included without CommonJS or RequireJS
+var CrudStore = FluxCrudStore.Store;
+var CrudActions = FluxCrudStore.Actions;
 ```
