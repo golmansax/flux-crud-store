@@ -1,0 +1,7 @@
+test/
+Makefile
+coverage
+.jshintrc
+.jscsrc
+.travis.yml
+dist/

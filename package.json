@@ -19,6 +19,7 @@
     "backbone"
   ],
   "devDependencies": {
+    "browserify": "latest",
     "chai": "1.9.2",
     "dirty-chai": "latest",
     "codeclimate-test-reporter": "latest",
@@ -33,7 +34,6 @@
   "dependencies": {
     "backbone": "latest",
     "immutable": "latest",
-    "object.assign": "latest",
     "underscore": "latest"
   },
   "scripts": {

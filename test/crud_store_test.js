@@ -18,8 +18,7 @@ describe('crud_store', function () {
 
   beforeEach(function () {
     ViewModel = Record({ id: null });
-    var MyStore = CrudStore.extend({ viewModel: ViewModel });
-    store = new MyStore();
+    store = CrudStore.extend({ viewModel: ViewModel }).instance();
     actions = CrudStoreActions.boundTo(store);
   });
 

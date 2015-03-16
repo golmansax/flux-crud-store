@@ -1,3 +1,5 @@
+.PHONY: test build coverage codeclimate
+
 test:
 	./node_modules/.bin/mocha test/**/*
 
@@ -7,4 +9,8 @@ coverage:
 codeclimate:
 	istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec && ./node_modules/.bin/codeclimate < ./coverage/lcov.info
 
-.PHONY: test
+build:
+	mkdir -p dist/
+	./node_modules/.bin/browserify -r ./lib/index.js:flux-crud-store -x immutable -x underscore -x backbone > dist/bundle.js
+	cat build/umd-head.js dist/bundle.js build/umd-tail.js > dist/flux_crud_store.js
+	rm dist/bundle.js
