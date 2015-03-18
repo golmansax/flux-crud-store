@@ -87,13 +87,18 @@ describe('crud_store_actions', function () {
       }).to.throw('fetch action requires \'url\' to be set');
     });
 
-    it('returns a loading response', function () {
+    it('makes get return a loading response', function () {
       expect(store.get(8).isLoading).be.true();
     });
 
     it('issues a server call', function () {
       expect(Backbone.ajax).to.have.been.called();
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/8');
+    });
+
+    it('makes get return the view model on success', function () {
+      Backbone.ajax.getCall(0).args[0].success({ id: 8 });
+      expect(store.get(8).id).to.equal(8);
     });
   });
 
