@@ -36,8 +36,14 @@ _(CrudStore.prototype).extend({
       throw 'viewModel must be set on the Store class';
     }
 
+    if (!this.collection) {
+      throw 'collection must be set on the Store class';
+    }
+
     this._collection = new this.collection();
     this._viewModels = new OrderedMap();
+    this._isFetchingAll = false;
+    this._isFetching = {};
   },
 
   addChangeListener: function (callback) {
@@ -57,7 +63,7 @@ _(CrudStore.prototype).extend({
   },
 
   getAll: function () {
-    if (this._fetchingAll) {
+    if (this._isFetchingAll) {
       return this._loadingResponse;
     }
 
@@ -75,6 +81,10 @@ _(CrudStore.prototype).extend({
   },
 
   get: function (id) {
+    if (this._isFetching[id]) {
+      return this._loadingResponse;
+    }
+
     var model = this._collection.get(id);
 
     if (!model) {
@@ -158,11 +168,34 @@ _(CrudStoreActions.prototype).extend({
   },
 
   fetchAll: function () {
-    this._fetchingAll = true;
+    if (!this._collection.url) {
+      throw 'fetchAll action requires \'url\' to be set on collection class!';
+    }
+
+    this._isFetchingAll = true;
     this._collection.fetch({
       silent: true,
       success: function () {
-        this._fetchingAll = false;
+        this._isFetchingAll = false;
+      }.bind(this)
+    });
+  },
+
+  fetch: function (id) {
+    if (!this._collection.url) {
+      throw 'fetch action requires \'url\' to be set on collection class!';
+    }
+
+    var model = this._collection.get(id);
+    if (!model) {
+      model = new this._collection.model({ id: id });
+      this._collection.add(model);
+    }
+
+    this._isFetching[id] = true;
+    model.fetch({
+      success: function () {
+        this._isFetching[id] = false;
       }.bind(this)
     });
   },
