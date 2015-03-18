@@ -7,6 +7,7 @@ script:
 - jshint . --exclude-path .jshintignore
 - npm test
 - make codeclimate
+- make check-if-built
 cache:
   directories:
   - node_modules
