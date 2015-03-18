@@ -17,4 +17,4 @@ build:
 
 check-if-built:
 	make build
-	test `git diff --name-only dist/flux_crud_store.js | wc -l` -eq 1 && echo '******** Check in the new build! ********' && exit 1
+	test `git diff --name-only dist/flux_crud_store.js | wc -l` -eq 0
