@@ -110,5 +110,11 @@ describe('crud_store_actions', function () {
         actions.fetchAll();
       }).to.throw('fetchAll action requires \'url\' to be set');
     });
+
+    it('makes get return a loading response', function () {
+      actions.fetchAll();
+      expect(store.get(8).isLoading).be.true();
+    });
+
   });
 });

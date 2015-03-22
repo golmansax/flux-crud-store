@@ -81,7 +81,7 @@ _(CrudStore.prototype).extend({
   },
 
   get: function (id) {
-    if (this._isFetching[id]) {
+    if (this._isFetchingAll || this._isFetching[id]) {
       return this._loadingResponse;
     }
 
