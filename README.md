@@ -17,8 +17,8 @@ var TurtleCollection = require('backbone').Collection.extend({
   url: '/turtles'
 });
 
-// (Required) subclass of Immutable Record; viewModel instances will be passed through the Store API
-var TurtleVIewModel = require('immutable').Record({
+// (Required) subclass of Immutable.Record; viewModel instances will be passed through the Store API
+var TurtleViewModel = require('immutable').Record({
   id: null,
   name: ''
 });
@@ -33,10 +33,15 @@ Hook up to React component (assuming Store already has data):
 ```js
 function getStateFromStore(id) {
   return {
+    // following returns an instance of TurtleViewModel
     turtle: TurtleStore.get(id)
     
     // Other exposed getter is TurtleStore.getAll()
-    // Both methods return instance of Immutable Record subclass, so we can use PureRenderMixin!
+    // turtles: TurtleStore.getAll()
+    // this returns an Immutable.OrderedMap, with:
+    //  - keys of Backbone cids
+    //  - values of TurtleViewModel instances
+    // See http://facebook.github.io/immutable-js/ for more on immutable
   };
 }
 
@@ -45,7 +50,7 @@ var MyComponent = React.createClass({
     id: React.PropTypes.string.isRequired,
   },
   
-  // We are able to get the benefits of PureRenderMixin!
+  // We are able to get the benefits of PureRenderMixin because we are using Immutable objects!
   // https://facebook.github.io/react/docs/pure-render-mixin.html
   mixins: [React.addons.PureRenderMixin],
   
@@ -58,7 +63,7 @@ var MyComponent = React.createClass({
   },
   
   _onChange: function () {
-    this.setState(getStateFromStore(this.props.id);
+    this.setState(getStateFromStore(this.props.id));
   },
   
   componentWillReceiveProps: function (newProps) {
@@ -71,6 +76,73 @@ var MyComponent = React.createClass({
 });
 ```
 See [react-bind-mixin](https://github.com/golmansax/react-bind-mixin) for a Mixin that binds a Store to a React Component to skip the setup!
+
+### Actions
+```js
+var CrudActions = require('flux-crud-store').Actions;
+
+// Assuming TurtleStore defined in previous section
+var TurtleActions = CrudActions.boundTo(TurtleStore);
+```
+
+Following are actions that **do not make** server requests.
+```js
+var id = 'some-arbitrary-id';
+var data = ({ name: 'Leonardo' });
+
+TurtleActions.create(data);
+
+TurtleActions.update(id, data);
+
+TurtleActions.destroy(id);
+```
+
+Following are actions that **make** server requests!  They require `url` to be set on the Backbone Collection passed into `CrudStore.extend` (see previous section).
+```js
+// Following examples assume that 'url' set on Backbone Collection passed to CrudStore
+// is '/turtles' (can see previous section for how this is hooked up)
+var id = 'some-arbitrary-id';
+var data = ({ name: 'Leonardo' });
+
+TurtleActions.createAndSave(data);
+// POSTs to '/turtles'
+
+TurtleActions.updateAndSave(id, data);
+// PUTs to '/turtles/id'
+
+TurtleActions.destroyAndSave(id);
+// DELETEs to '/turtles/id'
+
+// Following saves all unsaved changes for a specific model
+TurtleActions.save(id);
+// PUTs to '/turtles/id'
+```
+
+Following are actions that also make server requests, and affect the getters defined in the Store.
+```js
+// assuming nothing is in the store
+console.log(TurtleStore.getAll()); // returns an empty Immutable.OrderedMap
+
+TurtleStore.fetchAll(); // GETs to '/turtles'
+
+// BEFORE the server request returns
+console.log(TurtleStore.getAll()); // returns { isLoading: true };
+console.log(TurtleStore.get('any-id')); // returns { isLoading: true };
+
+// AFTER server request returns
+console.log(TurtleStore.getAll()); // returns Immutable.OrderedMap as described above
+console.log(TurtleStore.get('any-id')); // returns instance of TurtleViewModel or null
+
+
+TurtleStore.fetch('any-id');
+
+// BEFORE the server request returns
+console.log(TurtleStore.get('any-id')); // returns { isLoading: true };
+console.log(TurtleStore.get('another-id')); // not affected
+
+// AFTER server request returns
+console.log(TurtleStore.get('any-id')); // returns instance of TurtleViewModel or null
+```
 
 ## Installation
 ### Node
