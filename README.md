@@ -86,7 +86,7 @@ var CrudActions = require('flux-crud-store').Actions;
 var TurtleActions = CrudActions.boundTo(TurtleStore);
 ```
 
-Following are actions that **do not make** server requests.
+Following are actions that **do not make** server requests. (They only make changes to the Store.)
 ```js
 var id = 'some-arbitrary-id';
 var data = ({ name: 'Leonardo' });
@@ -98,7 +98,7 @@ TurtleActions.update(id, data);
 TurtleActions.destroy(id);
 ```
 
-Following are actions that **make** server requests!  They require `url` to be set on the Backbone Collection passed into `CrudStore.extend` (see previous section).
+Following are actions that **make** server requests!  (They make changes to the Store and then make an appropriate server request.) They require `url` to be set on the Backbone Collection passed into `CrudStore.extend` (see previous section).
 ```js
 // Following examples assume that 'url' set on Backbone Collection passed to CrudStore
 // is '/turtles' (can see previous section for how this is hooked up)
