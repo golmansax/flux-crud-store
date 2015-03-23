@@ -35,13 +35,14 @@ function getStateFromStore(id) {
   return {
     // following returns an instance of TurtleViewModel
     turtle: TurtleStore.get(id)
-    
+
     // Other exposed getter is TurtleStore.getAll()
-    // turtles: TurtleStore.getAll()
     // this returns an Immutable.OrderedMap, with:
     //  - keys of Backbone cids
     //  - values of TurtleViewModel instances
     // See http://facebook.github.io/immutable-js/ for more on immutable
+
+    // turtles: TurtleStore.getAll()
   };
 }
 
