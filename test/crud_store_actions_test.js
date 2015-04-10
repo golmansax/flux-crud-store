@@ -20,7 +20,7 @@ describe('crud_store_actions', function () {
   var ModelCollection;
 
   beforeEach(function () {
-    ViewModel = Record({ id: null });
+    ViewModel = Record({ id: null, value: '' });
     ModelCollection = Collection.extend({ url: '/models' });
     store = CrudStore.extend({
       viewModel: ViewModel,
@@ -53,13 +53,48 @@ describe('crud_store_actions', function () {
     it('issues a server call', function () {
       expect(Backbone.ajax).to.have.been.called();
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models');
+      expect(Backbone.ajax.getCall(0).args[0].type).to.equal('POST');
     });
   });
 
   describe('#update', function () {
+    beforeEach(function () {
+      actions.create({ id: 77 });
+      actions.update(77, { value: 'new value' });
+    });
+
+    it('updates the specified model with the attributes', function () {
+      expect(store.get(77).value).equal('new value');
+    });
+
+    it('does not make a server call', function () {
+      expect(Backbone.ajax).not.to.have.been.called();
+    });
+
+    it('throws an error if model does not exist', function () {
+      expect(function () {
+        actions.update(7, { value: 'new value' });
+      }).to.throw('Cannot call update action with id: 7');
+    });
   });
 
   describe('#updateAndSave', function () {
+    beforeEach(function () {
+      actions.create({ id: 77 });
+      actions.updateAndSave(77, { value: 'new value' });
+    });
+
+    it('makes a server call', function () {
+      expect(Backbone.ajax).to.have.been.called();
+      expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/77');
+      expect(Backbone.ajax.getCall(0).args[0].type).to.equal('PUT');
+    });
+
+    it('throws an error if model does not exist', function () {
+      expect(function () {
+        actions.update(7, { value: 'new value' });
+      }).to.throw('Cannot call update action with id: 7');
+    });
   });
 
   describe('#destroy', function () {
