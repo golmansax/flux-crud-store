@@ -146,21 +146,44 @@ _(CrudStoreActions.prototype).extend({
   },
 
   update: function (id, data) {
-    this._collection.get(id).set(data);
+    var model = this._collection.get(id);
+    if (!model) {
+      throw 'Cannot call update action with id: ' + id + ' because model ' +
+        'not exist.';
+    }
+
+    model.set(data);
   },
 
   updateAndSave: function (id, data) {
     var model = this._collection.get(id);
+    if (!model) {
+      throw 'Cannot call updateAndSave action with id: ' + id + ' because ' +
+        'model not exist.';
+    }
+
     model.set(data);
     model.save();
   },
 
   destroy: function (id) {
+    var model = this._collection.get(id);
+    if (!model) {
+      throw 'Cannot call destroy action with id: ' + id + ' because model ' +
+        'not exist.';
+    }
+
     this._collection.remove(id);
   },
 
   destroyAndSave: function (id) {
-    this._collection.get(id).destroy();
+    var model = this._collection.get(id);
+    if (!model) {
+      throw 'Cannot call destroyAndSave action with id: ' + id + ' because ' +
+        'model not exist.';
+    }
+
+    model.destroy();
   },
 
   load: function (models) {
@@ -202,6 +225,11 @@ _(CrudStoreActions.prototype).extend({
 
   save: function (id) {
     var model = this._collection.get(id);
+    if (!model) {
+      throw 'Cannot call save action with id: ' + id + ' because model ' +
+        'not exist.';
+    }
+
     model.save();
   }
 });
