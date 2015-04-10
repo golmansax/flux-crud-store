@@ -25,8 +25,17 @@ describe('crud_store', function () {
   describe('#initialize', function () {
     it('throws an error if viewModel is not set', function () {
       expect(function () {
-        store = new CrudStore();
+        store = CrudStore.instance();
       }).to.throw('viewModel must be set');
+    });
+
+    it('throws an error if collection is not set', function () {
+      expect(function () {
+        store = CrudStore.extend({
+          viewModel: ViewModel,
+          collection: null
+        }).instance();
+      }).to.throw('collection must be set');
     });
   });
 
@@ -99,6 +108,13 @@ describe('crud_store', function () {
     it('returns the same Iterable instance if nothing changed', function () {
       actions.create({ id: 77 });
       expect(store.getAll()).to.equal(store.getAll());
+    });
+
+    it('works even when models are destroyed', function () {
+      actions.create({ id: 77 });
+      expect(store.getAll().size).to.equal(1);
+      actions.destroy({ id: 77 });
+      expect(store.getAll().size).to.equal(0);
     });
   });
 });

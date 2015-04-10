@@ -198,6 +198,12 @@ describe('crud_store_actions', function () {
       Backbone.ajax.getCall(0).args[0].success({ id: 8 });
       expect(store.get(8).id).to.equal(8);
     });
+
+    it('grabs the existing model when necessary', function () {
+      actions.create({ id: 77 });
+      actions.fetch(77);
+      expect(Backbone.ajax.getCall(1).args[0].url).to.equal('/models/77');
+    });
   });
 
   describe('#fetchAll', function () {
@@ -214,10 +220,15 @@ describe('crud_store_actions', function () {
       expect(store.get(8).isLoading).be.true();
     });
 
-    it('makes get() return the view model iterable on success', function () {
+    it('makes getAll() return a loading response', function () {
+      actions.fetchAll();
+      expect(store.getAll().isLoading).be.true();
+    });
+
+    it('makes getAll() return the view model iterable on success', function () {
       actions.fetchAll();
       Backbone.ajax.getCall(0).args[0].success([{ id: 8 }]);
-      expect(store.get(8).id).to.equal(8);
+      expect(store.getAll().first().id).to.equal(8);
     });
   });
 });
