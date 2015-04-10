@@ -55,7 +55,7 @@ describe('crud_store_actions', function () {
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models');
       expect(Backbone.ajax.getCall(0).args[0].type).to.equal('POST');
 
-      var data = JSON.parse(Backbone.ajax.getCall(0).args[0].data);
+      var data = global.JSON.parse(Backbone.ajax.getCall(0).args[0].data);
       expect(data).to.deep.equal({ value: 'new value' });
     });
   });
@@ -92,7 +92,7 @@ describe('crud_store_actions', function () {
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/77');
       expect(Backbone.ajax.getCall(0).args[0].type).to.equal('PUT');
 
-      var data = JSON.parse(Backbone.ajax.getCall(0).args[0].data);
+      var data = global.JSON.parse(Backbone.ajax.getCall(0).args[0].data);
       expect(data).to.deep.equal({ id: 77, value: 'new value' });
     });
 
@@ -110,7 +110,7 @@ describe('crud_store_actions', function () {
     });
 
     it('destroys model from storage', function () {
-      expect(store.get(77)).be.null;
+      expect(store.get(77)).be.null();
     });
 
     it('does not make a server call', function () {
@@ -154,7 +154,7 @@ describe('crud_store_actions', function () {
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/77');
       expect(Backbone.ajax.getCall(0).args[0].type).to.equal('PUT');
 
-      var data = JSON.parse(Backbone.ajax.getCall(0).args[0].data);
+      var data = global.JSON.parse(Backbone.ajax.getCall(0).args[0].data);
       expect(data).to.deep.equal({ id: 77, value: 'new value' });
     });
 
