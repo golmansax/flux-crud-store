@@ -166,6 +166,10 @@ describe('crud_store_actions', function () {
   });
 
   describe('#load', function () {
+    it('loads in models', function () {
+      actions.load({ id: 77, value: 'new value' });
+      expect(store.get(77).value).to.equal('new value');
+    });
   });
 
   describe('#fetch', function () {
@@ -190,7 +194,7 @@ describe('crud_store_actions', function () {
       expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/8');
     });
 
-    it('makes get return the view model on success', function () {
+    it('makes get() return the view model on success', function () {
       Backbone.ajax.getCall(0).args[0].success({ id: 8 });
       expect(store.get(8).id).to.equal(8);
     });
@@ -205,10 +209,15 @@ describe('crud_store_actions', function () {
       }).to.throw('fetchAll action requires \'url\' to be set');
     });
 
-    it('makes get return a loading response', function () {
+    it('makes get() return a loading response', function () {
       actions.fetchAll();
       expect(store.get(8).isLoading).be.true();
     });
 
+    it('makes get() return the view model iterable on success', function () {
+      actions.fetchAll();
+      Backbone.ajax.getCall(0).args[0].success([{ id: 8 }]);
+      expect(store.get(8).id).to.equal(8);
+    });
   });
 });
