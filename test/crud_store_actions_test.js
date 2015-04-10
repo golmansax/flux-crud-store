@@ -99,14 +99,48 @@ describe('crud_store_actions', function () {
     it('throws an error if model does not exist', function () {
       expect(function () {
         actions.updateAndSave(7, { value: 'new value' });
-      }).to.throw('Cannot call update action with id: 7');
+      }).to.throw('Cannot call updateAndSave action with id: 7');
     });
   });
 
   describe('#destroy', function () {
+    beforeEach(function () {
+      actions.create({ id: 77 });
+      actions.destroy(77);
+    });
+
+    it('destroys model from storage', function () {
+      expect(store.get(77)).be.null;
+    });
+
+    it('does not make a server call', function () {
+      expect(Backbone.ajax).not.to.have.been.called();
+    });
+
+    it('throws an error if model does not exist', function () {
+      expect(function () {
+        actions.destroy(7);
+      }).to.throw('Cannot call destroy action with id: 7');
+    });
   });
 
   describe('#destroyAndSave', function () {
+    beforeEach(function () {
+      actions.create({ id: 77 });
+      actions.destroyAndSave(77);
+    });
+
+    it('makes a server call', function () {
+      expect(Backbone.ajax).to.have.been.called();
+      expect(Backbone.ajax.getCall(0).args[0].url).to.equal('/models/77');
+      expect(Backbone.ajax.getCall(0).args[0].type).to.equal('DELETE');
+    });
+
+    it('throws an error if model does not exist', function () {
+      expect(function () {
+        actions.destroyAndSave(7);
+      }).to.throw('Cannot call destroyAndSave action with id: 7');
+    });
   });
 
   describe('#save', function () {
@@ -127,7 +161,7 @@ describe('crud_store_actions', function () {
     it('throws an error if model does not exist', function () {
       expect(function () {
         actions.save(7);
-      }).to.throw('Cannot call update action with id: 7');
+      }).to.throw('Cannot call save action with id: 7');
     });
   });
 
