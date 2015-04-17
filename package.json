@@ -20,7 +20,7 @@
   ],
   "devDependencies": {
     "browserify": "latest",
-    "chai": "1.9.2",
+    "chai": "latest",
     "dirty-chai": "latest",
     "codeclimate-test-reporter": "latest",
     "istanbul": "latest",
