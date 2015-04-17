@@ -1,6 +1,6 @@
 {
   "name": "flux-crud-store",
-  "description": "A Flux Store implementation that uses Backbone for CRUD actions. Returns ImmutableJS objects to allow for pure rendering.",
+  "description": "A Flux Store implementation that uses Backbone for CRUD actions. Returns Immutable.js objects to allow for pure rendering.",
   "license": "MIT",
   "authors": ["Holman Gao <holman@golmansax.com>"],
   "main": "dist/flux_crud_store.js",
