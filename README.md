@@ -4,8 +4,10 @@
 [![Code Climate](https://codeclimate.com/github/golmansax/flux-crud-store/badges/gpa.svg)](https://codeclimate.com/github/golmansax/flux-crud-store)
 [![Test Coverage](https://codeclimate.com/github/golmansax/flux-crud-store/badges/coverage.svg)](https://codeclimate.com/github/golmansax/flux-crud-store)
 
-A Flux Store implementation which makes it easy to perform CRUD Actions.
-More to come!
+A Flux Store implementation which makes it easy to perform CRUD Actions by hooking into Backbone.  It also takes advantage of Immutable.js so that you can use `PureRenderMixin` in all of your components to boost performance!  An article by Facebook on using [Immutable.js with Flux](https://facebook.github.io/react/docs/advanced-performance.html#immutable-js-and-flux).
+
+## Full Example
+See https://github.com/golmansax/todo-app-in-rails-flux for an app that uses all of the features of this library.  It is a Rails app, so all of the JS lies within `app/assets/javascripts` directory.  The code might be a little confusing though =p.
 
 ## Usage
 ### Store
