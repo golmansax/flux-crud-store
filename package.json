@@ -3,7 +3,7 @@
   "description": "A Flux Store implementation that uses Backbone for CRUD actions. Returns Immutable.js objects to allow for pure rendering.",
   "license": "MIT",
   "author": "Holman Gao <holman@golmansax.com>",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
