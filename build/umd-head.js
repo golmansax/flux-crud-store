@@ -2,7 +2,7 @@
   if(typeof exports === 'object') {
     module.exports = factory(require('backbone'), require('underscore'), require('immutable'));
   } else if(typeof define === 'function' && define.amd) {
-    define(['backbone', 'underscore', immutable], factory);
+    define(['backbone', 'underscore', 'immutable'], factory);
   } else {
     root.FluxCrudStore = factory(root.Backbone, root._, root.Immutable);
   }
