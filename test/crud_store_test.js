@@ -23,10 +23,16 @@ describe('crud_store', function () {
   });
 
   describe('#initialize', function () {
-    it('throws an error if viewModel is not set', function () {
+    it('throws an error if viewModel is set and is not a function', function () {
       expect(function () {
-        store = CrudStore.instance();
-      }).to.throw('viewModel must be set');
+        store = CrudStore.extend({ viewModel: 'blah' }).instance();
+      }).to.throw('viewModel, if defined, must be an Immutable.Record class');
+    });
+
+    it('throws an error if viewModel is a class but not a Record', function () {
+      expect(function () {
+        store = CrudStore.extend({ viewModel: function () {} }).instance();
+      }).to.throw('viewModel, if defined, must be an Immutable.Record class');
     });
 
     it('throws an error if collection is not set', function () {
@@ -89,6 +95,13 @@ describe('crud_store', function () {
       actions.create({ id: 77 });
       expect(store.get(77)).to.equal(store.get(77));
     });
+
+    it('returns a plain object if not using view model', function () {
+      store = CrudStore.instance();
+      actions = CrudStoreActions.boundTo(store);
+      actions.create({ id: 77 });
+      expect(store.get(77)).to.deep.equal({ id: 77 });
+    });
   });
 
   describe('#getAll', function () {
@@ -118,6 +131,13 @@ describe('crud_store', function () {
       expect(store.getAll().size).to.equal(1);
       actions.destroy({ id: 77 });
       expect(store.getAll().size).to.equal(0);
+    });
+
+    it('returns a plain array if not using view model', function () {
+      store = CrudStore.instance();
+      actions = CrudStoreActions.boundTo(store);
+      actions.create({ id: 77 });
+      expect(store.getAll()).to.deep.equal([{ id: 77 }]);
     });
   });
 });

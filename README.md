@@ -19,7 +19,7 @@ var TurtleCollection = require('backbone').Collection.extend({
   url: '/turtles'
 });
 
-// (Required) subclass of Immutable.Record; viewModel instances will be passed through the Store API
+// (optional) subclass of Immutable.Record; viewModel instances will be passed through the Store API
 var TurtleViewModel = require('immutable').Record({
   id: null,
   name: ''
@@ -35,13 +35,17 @@ Hook up to React component (assuming Store already has data):
 ```js
 function getStateFromStore(id) {
   return {
-    // following returns an instance of TurtleViewModel
+    // following returns:
+    //  - instance of TurtleViewModel if viewModel is set
+    //  - a plain JS object otherwise
     turtle: TurtleStore.get(id)
 
-    // Other exposed getter is TurtleStore.getAll()
-    // this returns an Immutable.OrderedMap, with:
-    //  - keys of Backbone cids
-    //  - values of TurtleViewModel instances
+    // Other exposed getter is TurtleStore.getAll(), this returns:
+    //  - an Immutable.OrderedMap if viewModel is set, with:
+    //    - a plain JS object otherwise
+    //    - keys of Backbone cids
+    //    - values of TurtleViewModel instances
+    //  - a plain JS array otherwise
     // See http://facebook.github.io/immutable-js/ for more on immutable
 
     // turtles: TurtleStore.getAll()
@@ -52,27 +56,27 @@ var MyComponent = React.createClass({
   propTypes: {
     id: React.PropTypes.string.isRequired,
   },
-  
+
   // We are able to get the benefits of PureRenderMixin because we are using Immutable objects!
   // https://facebook.github.io/react/docs/pure-render-mixin.html
   mixins: [React.addons.PureRenderMixin],
-  
+
   componentDidMount: function () {
     TurtleStore.addChangeListener(this._onChange);
   },
-  
+
   componentWillUnmount: function () {
     TurtleStore.removeChangeListener(this._onChange);
   },
-  
+
   _onChange: function () {
     this.setState(getStateFromStore(this.props.id));
   },
-  
+
   componentWillReceiveProps: function (newProps) {
     this.setState(getStateFromStore(newProps.id));
   },
-  
+
   render: function () {
     return <div>this.state.turtle.name</div>;
   }
