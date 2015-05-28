@@ -40,11 +40,14 @@ describe('crud_store', function () {
   });
 
   describe('#addChangeListener', function () {
-    it('binds a callback to when the store changes', function () {
-      var spy = sinon.spy();
-      store.addChangeListener(spy);
+    it('can bind multiple callbacks to when the store changes', function () {
+      var spy1 = sinon.spy();
+      var spy2 = sinon.spy();
+      store.addChangeListener(spy1);
+      store.addChangeListener(spy2);
       actions.create();
-      expect(spy).to.have.been.called();
+      expect(spy1).to.have.been.called();
+      expect(spy2).to.have.been.called();
     });
 
     it('throws an error if the param is not a function', function () {
