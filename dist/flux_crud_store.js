@@ -14,10 +14,16 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 'use strict';
 
 var Collection = require('backbone').Collection;
-var OrderedMap = require('immutable').OrderedMap;
-var Record = require('immutable').Record;
+var Immutable = require('immutable');
 var extend = Collection.extend;
 var _ = require('underscore');
+
+var OrderedMap;
+var Record;
+if (Immutable) {
+  OrderedMap = Immutable.OrderedMap;
+  Record = Immutable.Record;
+}
 
 var BACKBONE_EVENTS = 'add remove change reset sync';
 
@@ -43,16 +49,23 @@ _(CrudStore.prototype).extend({
   collection: Collection,
 
   initialize: function () {
-    if (this._isUsingViewModel() && !isImmutableRecord(this.viewModel)) {
-      throw 'viewModel, if defined, must be an Immutable.Record class';
+    if (this._isUsingViewModel()) {
+      if (!Immutable) {
+        throw 'You need to install Immutable.js to set viewModel';
+      }
+
+      if (!isImmutableRecord(this.viewModel)) {
+        throw 'viewModel, if defined, must be an Immutable.Record class';
+      }
+
+      this._viewModels = new OrderedMap();
     }
 
     if (!this.collection) {
       throw 'collection must be set on the Store class';
     }
-
     this._collection = new this.collection();
-    this._viewModels = new OrderedMap();
+
     this._isFetchingAll = false;
     this._isFetching = {};
   },
