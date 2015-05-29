@@ -1,7 +1,7 @@
 .PHONY: test build coverage codeclimate check-if-built jshint
 
 test:
-	./node_modules/.bin/mocha test/**/*
+	./node_modules/.bin/mocha test/*
 
 coverage:
 	istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*
@@ -21,3 +21,6 @@ check-if-built:
 
 jshint:
 	jshint . --exclude-path .jshintignore
+
+jscs:
+	jscs .

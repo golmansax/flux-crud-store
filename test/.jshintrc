@@ -3,7 +3,9 @@
   "-W024": false, // for chai methods that are keywords (e.g. throw)
 
   "globals": {
+    "after": true,
     "afterEach": true,
+    "before": true,
     "beforeEach": true,
     "describe": true,
     "document": true,

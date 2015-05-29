@@ -1,7 +1,7 @@
 'use strict';
 
-var CrudStore = require('../lib/index').Store;
-var CrudStoreActions = require('../lib/index').Actions;
+var CrudStore = require('../../lib/index').Store;
+var CrudStoreActions = require('../../lib/index').Actions;
 var Record = require('immutable').Record;
 var Iterable = require('immutable').Iterable;
 
@@ -11,7 +11,7 @@ var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
 
-describe('crud_store', function () {
+describe('crud_store/with_immutable', function () {
   var store;
   var actions;
   var ViewModel;
@@ -131,13 +131,6 @@ describe('crud_store', function () {
       expect(store.getAll().size).to.equal(1);
       actions.destroy({ id: 77 });
       expect(store.getAll().size).to.equal(0);
-    });
-
-    it('returns a plain array if not using view model', function () {
-      store = CrudStore.instance();
-      actions = CrudStoreActions.boundTo(store);
-      actions.create({ id: 77 });
-      expect(store.getAll()).to.deep.equal([{ id: 77 }]);
     });
   });
 });
