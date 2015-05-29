@@ -23,7 +23,7 @@
   "maxparams": false, // Angular and RequireJS includes break this
   "maxdepth": 4,
   "maxstatements": 50,
-  "maxcomplexity": 4,
+  "maxcomplexity": 5,
   "maxlen": 80,
 
   // Relaxing options: when set to true, produces fewer errors

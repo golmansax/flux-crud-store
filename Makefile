@@ -1,4 +1,4 @@
-.PHONY: test build coverage codeclimate check-if-built
+.PHONY: test build coverage codeclimate check-if-built jshint
 
 test:
 	./node_modules/.bin/mocha test/**/*
@@ -18,3 +18,6 @@ build:
 check-if-built:
 	make build
 	test `git diff --name-only dist/flux_crud_store.js | wc -l` -eq 0
+
+jshint:
+	jshint . --exclude-path .jshintignore
