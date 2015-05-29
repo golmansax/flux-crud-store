@@ -15,6 +15,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 var Collection = require('backbone').Collection;
 var OrderedMap = require('immutable').OrderedMap;
+var Record = require('immutable').Record;
 var extend = Collection.extend;
 var _ = require('underscore');
 
@@ -28,12 +29,22 @@ CrudStore.instance = function () {
   return new this();
 };
 
+function isImmutableRecord(klass) {
+  if (typeof klass !== 'function') {
+    return false;
+  }
+
+  var dummy = { klass: klass };
+  var testModel = new dummy.klass();
+  return testModel instanceof Record;
+}
+
 _(CrudStore.prototype).extend({
   collection: Collection,
 
   initialize: function () {
-    if (!this.viewModel) {
-      throw 'viewModel must be set on the Store class';
+    if (this._isUsingViewModel() && !isImmutableRecord(this.viewModel)) {
+      throw 'viewModel, if defined, must be an Immutable.Record class';
     }
 
     if (!this.collection) {
@@ -67,6 +78,10 @@ _(CrudStore.prototype).extend({
       return this._loadingResponse;
     }
 
+    if (!this._isUsingViewModel()) {
+      return this._collection.toJSON();
+    }
+
     // First pass is to remove any unused models
     this._viewModels.keySeq().forEach(function (key) {
       if (!this._collection.get(key)) {
@@ -90,12 +105,20 @@ _(CrudStore.prototype).extend({
     if (!model) {
       return null;
     } else {
+      if (!this._isUsingViewModel()) {
+        return model.toJSON();
+      }
+
       return this._cacheViewModel(model);
     }
   },
 
   _loadingResponse: {
     isLoading: true
+  },
+
+  _isUsingViewModel: function () {
+    return !!this.viewModel;
   },
 
   _cacheViewModel: function (model) {
