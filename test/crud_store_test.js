@@ -23,7 +23,7 @@ describe('crud_store', function () {
   });
 
   describe('#initialize', function () {
-    it('throws an error if viewModel is set and is not a function', function () {
+    it('throws an error if viewModel is set and not a function', function () {
       expect(function () {
         store = CrudStore.extend({ viewModel: 'blah' }).instance();
       }).to.throw('viewModel, if defined, must be an Immutable.Record class');
