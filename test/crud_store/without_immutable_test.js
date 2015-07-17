@@ -15,8 +15,8 @@ describe('crud_store/without_immutable', function () {
   before(function () {
     mockery.enable({ useCleanCache: true });
 
-    mockery.registerAllowable('../../lib/crud_store');
-    mockery.registerAllowable('../../lib/crud_store_actions');
+    mockery.registerAllowable('../../lib/crud_store/store');
+    mockery.registerAllowable('../../lib/crud_store/actions');
     mockery.registerAllowable('backbone');
     mockery.registerAllowable('underscore');
     mockery.registerAllowable('jquery');
@@ -28,8 +28,8 @@ describe('crud_store/without_immutable', function () {
   });
 
   beforeEach(function () {
-    CrudStore = require('../../lib/crud_store');
-    CrudStoreActions = require('../../lib/crud_store_actions');
+    CrudStore = require('../../lib/crud_store/store');
+    CrudStoreActions = require('../../lib/crud_store/actions');
 
     store = CrudStore.instance();
     actions = CrudStoreActions.boundTo(store);
