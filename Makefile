@@ -7,7 +7,7 @@ coverage:
 	istanbul cover ./node_modules/.bin/_mocha -- -R spec test/**/*
 
 codeclimate:
-	istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec && ./node_modules/.bin/codeclimate < ./coverage/lcov.info
+	istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec && ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
 
 build:
 	mkdir -p dist/
