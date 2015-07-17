@@ -5,8 +5,6 @@ var Constants = require('../../lib/index').Constants;
 var chai = require('chai');
 chai.use(require('dirty-chai'));
 var expect = chai.expect;
-var sinon = require('sinon');
-chai.use(require('sinon-chai'));
 
 describe('crud_store/with_immutable', function () {
   var constants;
