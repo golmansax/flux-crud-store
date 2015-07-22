@@ -6,11 +6,11 @@ var chai = require('chai');
 chai.use(require('dirty-chai'));
 var expect = chai.expect;
 
-describe('crud_store/with_immutable', function () {
+describe('flux_crud/constants', function () {
   var constants;
 
   beforeEach(function () {
-    constants = Constants.instance('todo');
+    constants = new Constants({ prefix: 'todo' });
   });
 
   describe('#instance', function () {

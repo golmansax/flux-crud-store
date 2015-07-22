@@ -23,6 +23,7 @@
     "chai": "latest",
     "dirty-chai": "latest",
     "codeclimate-test-reporter": "latest",
+    "flux": "latest",
     "immutable": "latest",
     "istanbul": "latest",
     "jscs": "latest",
